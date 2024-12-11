@@ -3,3 +3,14 @@
   margin: 0 auto;
 }
 
+.backg{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.tabela{
+  padding-top: 100px;
+}

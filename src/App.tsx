@@ -2,15 +2,37 @@ import './App.css'
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Table from "./components/Table";
 import { useState } from 'react';
+import Modal from './components/EditModal';
 import axios from 'axios';
-
+import Header from './components/Header';
+import soap from 'soap-everywhere';
 
 function App() {
-  const [response, setResponse] = useState(null);
+  /* const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   
+  const callSoapService = () => {
+    const wsdlUrl = 'http://localhost:8088/produtos?wsdl';
 
-  const callSoapService = async () => {
+    soap.createClient(wsdlUrl, (err, client) => {
+        if (err) {
+            setError('Erro ao criar cliente SOAP: ' + err.message);
+            return;
+        }
+
+        const args = { param1: 'value1', param2: 'value2' };
+        client.listar((err, result) => {
+            if (err) {
+                setError('Erro ao chamar o método SOAP: ' + err.message);
+            } else {
+                setResponse(result);
+            }
+        });
+    });
+  }
+
+  const callSoapService2 = async () => {
       const soapEndpoint = 'http://localhost:8088/produtos?wsdl';
       const soapAction = 'listarRequest'; // Set this based on the WSDL or API docs
 
@@ -39,16 +61,18 @@ function App() {
           console.error('SOAP Request Error:', err);
           setError('Failed to fetch data from the SOAP service.');
       }
-  };
+  }; */
 
   return (
     <>
-      <div>
-            <h1>SOAP Client Example</h1>
-            <button onClick={callSoapService}>Call SOAP Service</button>
-            {response && <div>Response: {response}</div>}
-            {error && <div style={{ color: 'red' }}>{error}</div>}
+      <div className='backg'>
+        <div className='tabela'>
+          <Header/>
+          <Table/>
         </div>
+        <Modal/>
+
+      </div>
     </>
   )
 }

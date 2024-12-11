@@ -1,10 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
-import { citiesList, data, type Person, usStateList } from './makeData';
 
 export type Product = {
     id: bigint;
@@ -15,11 +14,29 @@ export type Product = {
   };
 
 const Example = () => {
+  const [data, setData] = useState([
+    {
+      "id": 3,
+      "nome": "RTX 3090",
+      "quantidade": 2,
+      "precoUnitario": 7.00,
+      "dataCadatro": "2025-02-01 12:20:50"
+    },
+    {
+      "id": 4,
+      "nome": "RTX 3070",
+      "quantidade": 1,
+      "precoUnitario": 2.00,
+      "dataCadatro": "2021-02-01 12:20:50"
+    },
+  ]);
+  
   const columns = useMemo<MRT_ColumnDef<Product>[]>(
     () => [
       {
         accessorKey: 'id',
         header: 'id',
+        filterVariant: 'text',
         size: 170,
       },
       {
@@ -55,15 +72,4 @@ const Example = () => {
   return <MaterialReactTable table={table} />;
 };
 
-//Date Picker Imports - these should just be in your Context Provider
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
-const ExampleWithLocalizationProvider = () => (
-  //App.tsx or AppProviders file
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Example />
-  </LocalizationProvider>
-);
-
-export default ExampleWithLocalizationProvider;
+export default Example;
