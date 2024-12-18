@@ -1,16 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
+import axios from 'axios';
 
 export type Product = {
     id: bigint;
     nome: string;
     quantidade: number;
     precoUnitario: number;
-    dataCadastro: Date;
+    data: Date;
   };
 
 const Example = ({data}) => {
@@ -20,26 +21,31 @@ const Example = ({data}) => {
       {
         accessorKey: 'id',
         header: 'id',
-        size: 170,
+        filterVariant: 'autocomplete', // default
+        size: 100,
       },
       {
         accessorKey: 'nome',
         header: 'nome',
+        filterVariant: 'autocomplete', // default
         size: 200,
       },
       {
         accessorKey: 'quantidade',
         header: 'quantidade',
-        size: 200,
+        filterVariant: 'autocomplete',
+        size: 100,
       },
       {
         accessorKey: 'precoUnitario',
         header: 'precoUnitario',
-        size: 80,
+        filterVariant: 'autocomplete', // default
+        size: 100,
       },
       {
-        accessorKey: 'dataCadastro',
-        header: 'dataCadastro',
+        accessorKey: 'data',
+        header: 'data',
+        filterVariant: 'autocomplete', // default
         size: 200,
       },
     ],
@@ -55,4 +61,15 @@ const Example = ({data}) => {
   return <MaterialReactTable table={table} />;
 };
 
-export default Example;
+//Date Picker Imports - these should just be in your Context Provider
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+const ExampleWithLocalizationProvider = ({data}) => (
+  //App.tsx or AppProviders file
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Example data={data}/>
+  </LocalizationProvider>
+);
+
+export default ExampleWithLocalizationProvider;

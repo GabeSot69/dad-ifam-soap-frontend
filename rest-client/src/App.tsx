@@ -12,6 +12,7 @@ function App() {
     const fetchProdutos = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/produtos');
+        console.log(response.data)
         setProdutos(response.data);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
@@ -19,7 +20,7 @@ function App() {
     };
 
     fetchProdutos();
-  }, []);
+  });
 
   return (
     <>

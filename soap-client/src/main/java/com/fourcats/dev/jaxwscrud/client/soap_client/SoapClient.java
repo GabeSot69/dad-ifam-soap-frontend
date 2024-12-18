@@ -8,6 +8,9 @@ import java.io.StringReader;
 import java.net.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,6 +135,9 @@ public class SoapClient {
     }
 
     public static Produto alterarProduto(Produto produto) throws IOException, ParseException {
+        LocalDate localDate = produto.getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+
         String xmlInput = String.format("""
                 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://servico.jaxwscrudservice.fourcatsdev.com/">
                    <soapenv:Header/>
@@ -152,8 +158,8 @@ public class SoapClient {
                       </ser:alterar>
                    </soapenv:Body>
                 </soapenv:Envelope>
-                """, produto.getData(), produto.getId(), produto.getNome(), produto.getPrecoUnitario(), produto.getQuantidade());
-
+                """, localDate, produto.getId(), produto.getNome(), produto.getPrecoUnitario(), produto.getQuantidade());
+        System.out.println(xmlInput);
         URL url = new URL(wsURL);
         URLConnection connection = url.openConnection();
         HttpURLConnection httpConn = (HttpURLConnection) connection;
@@ -194,9 +200,10 @@ public class SoapClient {
 
 
     private static Produto criarProduto(NodeList children) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date data = dateFormat.parse(children.item(0).getTextContent());
+        System.out.println((children.item(0).getTextContent()));
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(children.item(0).getTextContent());
+        LocalDate localDate = offsetDateTime.toLocalDate();
+        Date data = java.sql.Date.valueOf(localDate);
         Long id = Long.parseLong(children.item(1).getTextContent());
         String nome = children.item(2).getTextContent();
         Double precoUnitario = Double.parseDouble(children.item(3).getTextContent());
