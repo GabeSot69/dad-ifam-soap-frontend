@@ -13,30 +13,13 @@ export type Product = {
     dataCadastro: Date;
   };
 
-const Example = () => {
-  const [data, setData] = useState([
-    {
-      "id": 3,
-      "nome": "RTX 3090",
-      "quantidade": 2,
-      "precoUnitario": 7.00,
-      "dataCadatro": "2025-02-01 12:20:50"
-    },
-    {
-      "id": 4,
-      "nome": "RTX 3070",
-      "quantidade": 1,
-      "precoUnitario": 2.00,
-      "dataCadatro": "2021-02-01 12:20:50"
-    },
-  ]);
+const Example = ({data}) => {
   
   const columns = useMemo<MRT_ColumnDef<Product>[]>(
     () => [
       {
         accessorKey: 'id',
         header: 'id',
-        filterVariant: 'text',
         size: 170,
       },
       {
